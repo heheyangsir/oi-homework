@@ -3,7 +3,7 @@
 [在这里查看作业](problem.md)
 
 ## 作业任务
-1.	创建药品表（Medicine），药品代码是主码，批号取值唯一
+### 1.	创建药品表（Medicine），药品代码是主码，批号取值唯一
 
 ```sql
 CREATE TABLE Medicine (
@@ -27,7 +27,7 @@ CREATE TABLE Medicine (
 
 > ⚠ 列`YB`上储存的是中文字符，作业中给出的是`Char(2)`，但默认情况下UTF-8编码使用3个字节储存1个中文字符，并且这个类型不适合存储中文字符。应该使用`Varchar2(3)`或者`Char(3)`或者`NChar(1)`。
 
-2.	创建供货商表（Provider），主码建为表级约束。
+### 2.	创建供货商表（Provider），主码建为表级约束。
 
 ```sql
 CREATE TABLE Provider (
@@ -46,7 +46,7 @@ CREATE TABLE Provider (
 这个SQL语句创建了一个名为Provider的表，其中ProviderCode是主键，ProviderName是非空字段。其他字段允许为空。
 
 
-3.	建立供应表（PM），包含主码、外码，均为表级约束。
+### 3.	建立供应表（PM），包含主码、外码，均为表级约束。
 
 ```sql
 CREATE TABLE PM (
@@ -62,44 +62,44 @@ CREATE TABLE PM (
 ```
 
 
-4.	向Medicine表增加“使用说明（Memo）”列，其数据类型为字符串类型。
+### 4.	向Medicine表增加“使用说明（Memo）”列，其数据类型为字符串类型。
 
 ```sql
 ALTER TABLE Medicine ADD (Memo Varchar(255));
 ```
 
-5.	将Medicine表的Memo列删除
+### 5.	将Medicine表的Memo列删除
 
 ```sql
 ALTER TABLE Medicine DROP COLUMN Memo;
 ```
 
-6.	将Provider表的Address列的数据类型由Char(50)改为Char(60)。
+### 6.	将Provider表的Address列的数据类型由Char(50)改为Char(60)。
 
 ```sql
 ALTER TABLE Provider MODIFY (Address Char(60));
 ```
 
-7.	删除供应表（PM）
+### 7.	删除供应表（PM）
 
 ```sql
 DROP TABLE PM;
 ```
 
-8.	为PM数据库中的Medicine，Provider两张表建立唯一索引
+### 8.	为PM数据库中的Medicine，Provider两张表建立唯一索引
 
 ```sql
 CREATE UNIQUE INDEX UNI_PM_Medicine_MedicineCode ON PM(MedicineCode);
 CREATE UNIQUE INDEX UNI_PM_Provider_ProviderCode ON PM(ProviderCode);
 ```
 
-9.	删除Medicine表的UNI_Medicine_MedicineCode索引
+### 9.	删除Medicine表的UNI_Medicine_MedicineCode索引
 
 ```sql
 DROP INDEX UNI_PM_Medicine_MedicineCode;
 ```
 
-10.	查询所有药品的药品代码、药品名称
+### 10.	查询所有药品的药品代码、药品名称
 
 哦！让我们在开始之前往表里填充一点信息。
 
@@ -229,126 +229,126 @@ INSERT INTO PM VALUES ('20008', 'S003', TO_DATE('2012-04-01', 'YYYY-MM-DD'),70, 
 SELECT MedicineCode, MedicineName FROM Medicine;
 ```
 
-11.	查询所有药品的剂型、药品名称、药品类别
+### 11.	查询所有药品的剂型、药品名称、药品类别
 
 ```sql
 SELECT DosageForm, MedicineName, Category FROM Medicine;
 ```
 
-12.	查询所有药品的详细记录
+### 12.	查询所有药品的详细记录
 
 ```sql
 SELECT * FROM Medicine;
 ```
 
-13.	查询所有药品的药品代码、药品名称、生产年份
+### 13.	查询所有药品的药品代码、药品名称、生产年份
 
 ```sql
 SELECT MedicineCode, MedicineName, TO_CHAR(ProductionDate, 'YYYY') FROM Medicine;
 ```
 
-14.	查询中成药类的药品名称
+### 14.	查询中成药类的药品名称
 
 ```sql
 SELECT MedicineName FROM Medicine WHERE Category = '中成药';
 ```
-15.	查询所有过期药品的药品代码、药品名称、失效日期
+### 15.	查询所有过期药品的药品代码、药品名称、失效日期
 
 ```sql
 SELECT MedicineCode, MedicineName, ExpirationDate FROM Medicine WHERE ExpirationDate < SYSDATE;
 ```
 
-16.	查询供应价格在10元以内的药品代码
+### 16.	查询供应价格在10元以内的药品代码
 
 ```sql
 SELECT MedicineCode FROM PM WHERE Price < 10;
 ```
 
-17.	查询生产日期在2011-06-01与2012-06-01之间的药品信息
+### 17.	查询生产日期在2011-06-01与2012-06-01之间的药品信息
 
 ```sql
 SELECT * FROM Medicine WHERE ProductionDate BETWEEN TO_DATE('2011-06-01', 'YYYY-MM-DD') AND TO_DATE('2012-06-01', 'YYYY-MM-DD');
 ```
 
-18.	查询片剂、散剂和颗粒剂的药品代码、药品名称
+### 18.	查询片剂、散剂和颗粒剂的药品代码、药品名称
 
 ```sql
 SELECT MedicineCode, MedicineName FROM Medicine WHERE DosageForm IN ('片剂', '散剂', '颗粒剂');
 ```
 
-19.	查询所有拼音简码以x开头的药品代码、药品名称
+### 19.	查询所有拼音简码以x开头的药品代码、药品名称
 
 ```sql
 SELECT MedicineCode, MedicineName FROM Medicine WHERE PyCode LIKE 'X%';
 ```
 
-20.	查询邮箱为“ttm_8512@126.com”的供应商信息
+### 20.	查询邮箱为“ttm_8512@126.com”的供应商信息
 
 ```sql
 SELECT * FROM Provider WHERE Email = 'ttm_8512@126.com';
 ```
 
-21.	查询没有提供联系电话的供应商基本信息
+### 21.	查询没有提供联系电话的供应商基本信息
 
 ```sql
 SELECT * FROM Provider WHERE Tel IS NULL;
 ```
 
-22.	查询2012年以后生产的剂型为“胶囊”的药品名称
+### 22.	查询2012年以后生产的剂型为“胶囊”的药品名称
 
 ```sql
 SELECT MedicineName FROM Medicine WHERE DosageForm = '胶囊剂' AND ProductionDate > TO_DATE('2012-01-01', 'YYYY-MM-DD');
 ```
 
-23.	查询药品基本信息，查询结果按照药品类别升序排列，同一类别按照生产日期降序排列
+### 23.	查询药品基本信息，查询结果按照药品类别升序排列，同一类别按照生产日期降序排列
 
 ```sql
 SELECT * FROM Medicine ORDER BY Category ASC, ProductionDate DESC;
 ```
-24.	查询药品的总个数
+### 24.	查询药品的总个数
 
 ```sql
 SELECT COUNT(*) FROM Medicine;
 ```
 
-25.	查询供应药品的供应商个数
+### 25.	查询供应药品的供应商个数
 
 ```sql
 SELECT COUNT(DISTINCT ProviderCode) FROM PM;
 ```
 
-26.	计算“10004”号药品的平均供应价格
+### 26.	计算“10004”号药品的平均供应价格
 
 ```sql
 SELECT AVG(Price) FROM PM WHERE MedicineCode = '10004';
 ```
 
-27.	查询“S001”供应商供应的药品总数量
+### 27.	查询“S001”供应商供应的药品总数量
 
 ```sql
 SELECT SUM(Qyt) FROM PM WHERE ProviderCode = 'S001';
 ```
 
-28.	求每个供应商供应的药品个数
+### 28.	求每个供应商供应的药品个数
 
 ```sql
 SELECT ProviderCode, COUNT(*) FROM PM GROUP BY ProviderCode;
 ```
 
-29.	查询供应了3种以上药品的供应商代码
+### 29.	查询供应了3种以上药品的供应商代码
 
 ```sql
 SELECT ProviderCode FROM PM GROUP BY ProviderCode HAVING COUNT(DISTINCT MedicineCode) > 3;
 ```
 哦显然，这没有**三种以上**的药品供应商，也许题目是想表达**三种及以上**。把大于号改成大于等于即可，你应该会的，对吧？
 
-30.	查询每个供应商及其供应药品的情况
+### 30.	查询每个供应商及其供应药品的情况
 
 ```sql
 SELECT ProviderCode, MedicineCode, MedicineName, Price, Qyt, PMDate FROM PM;
 ```
 
-31.	查询与小儿感冒颗粒相同剂型的药品信息（自身连接完成）
+### 31.	查询与小儿感冒颗粒相同剂型的药品信息（自身连接完成）
 
 ```sql
 SELECT M1.*
@@ -356,19 +356,19 @@ FROM Medicine M1, Medicine M2
 WHERE M1.DosageForm = M2.DosageForm AND M2.MedicineName = '小儿感冒颗粒';
 ```
 
-32.	左外连接：查询所有供应商供应药品的情况
+### 32.	左外连接：查询所有供应商供应药品的情况
 
 ```sql
 SELECT * FROM Provider LEFT JOIN PM ON Provider.ProviderCode = PM.ProviderCode;
 ```
 
-33.	右外连接：查询所有药品被供应的情况
+### 33.	右外连接：查询所有药品被供应的情况
 
 ```sql
 SELECT * FROM Medicine RIGHT JOIN PM ON Medicine.MedicineCode = PM.MedicineCode;
 ```
 
-34.	查询每个供应商供应的药品代码，药品名称、价格、数量、供应商名称、供应年份。
+### 34.	查询每个供应商供应的药品代码，药品名称、价格、数量、供应商名称、供应年份。
 
 ```sql
 SELECT PM.ProviderCode, PM.MedicineCode, Medicine.MedicineName, PM.Price, PM.Qyt, Provider.ProviderName, PM.PMDate 
@@ -377,43 +377,43 @@ JOIN Provider ON PM.ProviderCode = Provider.ProviderCode
 JOIN Medicine ON PM.MedicineCode = Medicine.MedicineCode;
 ```
 
-35.	查询"浙江康恩贝"供应的药品代码和药品名称（嵌套查询完成）
+### 35.	查询"浙江康恩贝"供应的药品代码和药品名称（嵌套查询完成）
 
 ```sql
 SELECT MedicineCode, MedicineName FROM Medicine WHERE MedicineCode IN (SELECT MedicineCode FROM PM WHERE ProviderCode = 'S002');
 ```
 
-36.	用嵌套查询完成31题：查询与小儿感冒颗粒相同剂型的药品信息。
+### 36.	用嵌套查询完成31题：查询与小儿感冒颗粒相同剂型的药品信息。
 
 ```sql
 SELECT * FROM Medicine WHERE DosageForm = (SELECT DosageForm FROM Medicine WHERE MedicineCode = '10001');
 ```
 
-37.	找出每种药品供应价格超出它的供应平均价格的供应商代码。
+### 37.	找出每种药品供应价格超出它的供应平均价格的供应商代码。
 
 ```sql
 SELECT ProviderCode, MedicineCode, Price FROM PM WHERE Price > (SELECT AVG(Price) FROM PM WHERE MedicineCode = PM.MedicineCode);
 ```
 
-38.	查询S001供应商供应的药品名称（使用EXISTS谓词）
+### 38.	查询S001供应商供应的药品名称（使用EXISTS谓词）
 
 ```sql
 SELECT MedicineName FROM Medicine WHERE EXISTS (SELECT * FROM PM WHERE Medicine.MedicineCode = PM.MedicineCode AND PM.ProviderCode = 'S001');
 ```
 
-39.	查询颗粒剂的药品及中成药（集合查询完成）
+### 39.	查询颗粒剂的药品及中成药（集合查询完成）
 
 ```sql
 SELECT MedicineCode, MedicineName FROM Medicine WHERE DosageForm = '颗粒剂' UNION SELECT MedicineCode, MedicineName FROM Medicine WHERE Category = '中成药';
 ```
 
-40.	查询颗粒剂的药品与中成药的差集
+### 40.	查询颗粒剂的药品与中成药的差集
 
 ```sql
 SELECT MedicineCode, MedicineName FROM Medicine WHERE DosageForm = '颗粒剂' MINUS SELECT MedicineCode, MedicineName FROM Medicine WHERE Category = '中成药';
 ```
 
-41.	将（药品代码:10007，药品名称：藿香正气水，拼音简码：hxzqs，剂型：口服液，规格：ml/支，批号：Z51021352，生产日期：-12-20，失效日期：-12-20，药品类别：中成药，是否医保：是）插入到Medicine表中
+### 41.	将（药品代码:10007，药品名称：藿香正气水，拼音简码：hxzqs，剂型：口服液，规格：ml/支，批号：Z51021352，生产日期：-12-20，失效日期：-12-20，药品类别：中成药，是否医保：是）插入到Medicine表中
 
 ```sql
 INSERT INTO Medicine VALUES (
@@ -430,7 +430,7 @@ INSERT INTO Medicine VALUES (
     '是'
 );
 ```
-42.	对每一种药品，求供应商供应的平均价格，并把结果存入数据库。
+### 42.	对每一种药品，求供应商供应的平均价格，并把结果存入数据库。
 
 ```sql
 ALTER TABLE Medicine ADD (Avgprice DECIMAL(10, 2));
@@ -442,20 +442,20 @@ SET AvgPrice = (
   WHERE PM.MedicineCode = Medicine.MedicineCode
 );
 ```
-43.	将所有药品的供应价格提高5%
+### 43.	将所有药品的供应价格提高5%
 
 ```sql
 UPDATE PM 
 SET Price = Price * 1.05;
 ```
 
-44.	删除供应表中，供应商代码为S001的所有记录
+### 44.	删除供应表中，供应商代码为S001的所有记录
 
 ```sql
 DELETE FROM PM 
 WHERE ProviderCode = 'S001';
 ```
-45.	删除青岛鲁健药业的供应药品记录
+### 45.	删除青岛鲁健药业的供应药品记录
 
 ```sql
 DELETE FROM PM 
@@ -466,7 +466,7 @@ WHERE ProviderCode = (
 );
 ```
 
-46.	创建“浙江康恩贝”供应商供应的药品信息（包含药品代码、药品名称、药品类别、供应商等属性列）的视图
+### 46.	创建“浙江康恩贝”供应商供应的药品信息（包含药品代码、药品名称、药品类别、供应商等属性列）的视图
 
 ```sql
 CREATE VIEW Zzkeb_Medicine AS 
@@ -477,7 +477,7 @@ JOIN Provider ON PM.ProviderCode = Provider.ProviderCode
 WHERE Provider.ProviderName = '浙江康恩贝';
 ```
 
-47.	将各供应商供应的药品总个数定义为一个视图。 
+### 47.	将各供应商供应的药品总个数定义为一个视图。 
 
 ```sql
 CREATE VIEW Provider_Medicine_Count AS 
@@ -486,7 +486,7 @@ FROM PM
 GROUP BY ProviderCode;
 ```
 
-48.	创建医保药品的视图，并要求进行修改和插入操作时仍须保证该视图只有医保药品。
+### 48.	创建医保药品的视图，并要求进行修改和插入操作时仍须保证该视图只有医保药品。
 
 ```sql
 CREATE VIEW ISYB_Medicine AS 
@@ -496,7 +496,7 @@ WHERE YB = '是'
 WITH CHECK OPTION CONSTRAINT ISYB_Medicine_Check;
 ```
 
-49.	将医保药品视图ISYB_Medicine中药品代码为‘10004’的药品名称改为柴胡冲剂。
+### 49.	将医保药品视图ISYB_Medicine中药品代码为‘10004’的药品名称改为柴胡冲剂。
 
 ```sql
 UPDATE ISYB_Medicine 
@@ -504,7 +504,7 @@ SET MedicineName = '柴胡冲剂'
 WHERE MedicineCode = '10004';
 ```
 
-50.	删除医保药品视图ISYB_Medicine中西药的记录
+### 50.	删除医保药品视图ISYB_Medicine中西药的记录
 
 ```sql
 DELETE FROM PM 
@@ -520,7 +520,7 @@ WHERE Category = '西药';
 
 注意，在这里我们若直接删除视图中的记录，会因这些记录在PM表中有相关联的子记录而导致删除失败。所以我们先删除PM表中的相关记录，再删除视图中的记录。
 
-51.	对供应表PM中药品（10002）供应的平均价格进行查询，如果药品的均价在10元以下，显示价格便宜，否则显示价格贵。
+### 51.	对供应表PM中药品（10002）供应的平均价格进行查询，如果药品的均价在10元以下，显示价格便宜，否则显示价格贵。
 
 ```sql
 SELECT MedicineCode, 
@@ -534,7 +534,7 @@ WHERE MedicineCode = '10002'
 GROUP BY MedicineCode;
 ```
 
-52.	使用IF-THEN-ELSE语句查询S001供应的编码为10001的药品价格，如果大于30，则将价格重新置为20，如果小于15，则价格提升20%。
+### 52.	使用IF-THEN-ELSE语句查询S001供应的编码为10001的药品价格，如果大于30，则将价格重新置为20，如果小于15，则价格提升20%。
 
 奶奶滴，根本就没有S001供应的10001药品，这里改成10002。
 
@@ -553,7 +553,7 @@ END;
 
 这里应该是把S001的10002药品价格升价20%，即从3.00升到4.00。
 
-53.	分别使用LOOP,WHILE,FOR语句，输出1+2+3+。。。+100的值。
+### 53.	分别使用LOOP,WHILE,FOR语句，输出1+2+3+。。。+100的值。
 
 ```sql
 DECLARE
@@ -579,7 +579,7 @@ BEGIN
 END;
 ```
 
-54.	将供应商表（Provider）中供应商编号为S001的ProviderName存储到一个表变量中，并打印出来。
+### 54.	将供应商表（Provider）中供应商编号为S001的ProviderName存储到一个表变量中，并打印出来。
 
 ```sql
 DECLARE
@@ -590,7 +590,7 @@ BEGIN
 END;
 ```
 
-55.	编写一个PL/SQL程序块，对所有药品按他们基本价格的20%加价，如果增加的价格大于5元就取消加价。
+### 55.	编写一个PL/SQL程序块，对所有药品按他们基本价格的20%加价，如果增加的价格大于5元就取消加价。
 
 ```sql
 DECLARE
@@ -607,7 +607,7 @@ BEGIN
 END;
 ```
 
-56.	创建一个事后语句级触发器。当向药品表插入新数据后，该触发器将统计MEDICINE表中的行数并输出。
+### 56.	创建一个事后语句级触发器。当向药品表插入新数据后，该触发器将统计MEDICINE表中的行数并输出。
 
 ```sql
 CREATE OR REPLACE TRIGGER Medicine_After_Insert
@@ -638,7 +638,7 @@ INSERT INTO medicine VALUES (
     NULL
 );
 ```
-57.	建立一个带输入IN参数的存储过程UPDATE_MEDI,为该过程设置两个参数，分别用于接收使用户提供的medicinecode和medicinename值。例如调用该存储过程可以完成medicinecode为‘10001’的medicinename改为‘云南白药’；
+### 57.	建立一个带输入IN参数的存储过程UPDATE_MEDI,为该过程设置两个参数，分别用于接收使用户提供的medicinecode和medicinename值。例如调用该存储过程可以完成medicinecode为‘10001’的medicinename改为‘云南白药’；
 
 ```sql
 CREATE OR REPLACE PROCEDURE UPDATE_MEDI (
@@ -657,7 +657,7 @@ END;
 EXECUTE UPDATE_MEDI('10001', '云南白药');
 ```
 
-58.	从medicine表中查询给药品的名称和和是否医保，并利用OUT模式参数传给调用者。
+### 58.	从medicine表中查询给药品的名称和和是否医保，并利用OUT模式参数传给调用者。
 
 ```sql
 CREATE OR REPLACE PROCEDURE GET_MEDICINE_YB (
@@ -683,7 +683,7 @@ BEGIN
 END;
 ```
 
-59.	创建一个存储过程，完成给定药品的编号后，删除该药品信息；
+### 59.	创建一个存储过程，完成给定药品的编号后，删除该药品信息；
 
 ```sql
 CREATE OR REPLACE PROCEDURE DELETE_MEDICINE (
@@ -703,7 +703,7 @@ EXECUTE DELETE_MEDICINE('20009');
 
 这样上面创建的`好吃的东西棒棒棒`就会被删除。
 
-60.	创建一个存储过程，完成给定某个药品编号后，求出该种药品供应的最高和最低价。
+### 60.	创建一个存储过程，完成给定某个药品编号后，求出该种药品供应的最高和最低价。
 
 ```sql
 CREATE OR REPLACE PROCEDURE GET_MEDICINE_PRICE (
@@ -729,7 +729,7 @@ BEGIN
 END;
 ```
 
-61.	创建一个函数，完成给定一个药品编号，求出该药品所有供应的价格总和。
+### 61.	创建一个函数，完成给定一个药品编号，求出该药品所有供应的价格总和。
 
 ```sql
 CREATE OR REPLACE FUNCTION GET_MEDICINE_TOTAL_PRICE (
@@ -754,7 +754,7 @@ BEGIN
 END;
 ```
 
-62.	给指定的药品加价。
+### 62.	给指定的药品加价。
 
 ```sql
 CREATE OR REPLACE FUNCTION ADD_PRICE (
